@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Karunya AcadAI — Jeevasuthish</title>
+<style>
+:root{
+  --page-bg:#020617;--panel-bg:#0f172acc;--card-bg:#111827;--text:#fff;
+  --muted:#94a3b8;--border:#ffffff1a;--input-bg:#0b1220;--accent:#60a5fa;
+}
+:root[data-theme="light"]{
+  --page-bg:#f1f5f9;--panel-bg:#ffffffed;--card-bg:#e2e8f0;--text:#0f172a;
+  --muted:#475569;--border:#cbd5e1;--input-bg:#fff;--accent:#2563eb;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{min-height:100vh;color:var(--text);background:var(--page-bg);overflow-x:hidden;transition:background .2s,color .2s}
+.section,.stat,.auth,header{background:var(--panel-bg);color:var(--text);border-color:var(--border)}
+.mini,.planItem,.comment,.materialCard,.chatPanel,.chatTop,.chatMsg{background:var(--card-bg);color:var(--text);border-color:var(--border)}
+input,select,textarea{background:var(--input-bg);color:var(--text);border-color:var(--border)}
+.muted,.section>p,.materialCard p,.chatTop small{color:var(--muted)}
+body:before,body:after{content:"";position:fixed;width:520px;height:520px;border-radius:50%;filter:blur(110px);opacity:.25;z-index:-2;animation:float 10s infinite alternate}
+body:before{background:#2563eb;top:-180px;left:-160px}body:after{background:#9333ea;bottom:-220px;right:-160px}
+@keyframes float{to{transform:translate(90px,60px) scale(1.25)}}
+#particles{position:fixed;inset:0;z-index:-1;pointer-events:none}.p{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;opacity:.45;animation:up linear infinite}
+@keyframes up{from{transform:translateY(100vh)}to{transform:translateY(-10vh)}}
+.hidden{display:none!important}
+.auth{width:450px;max-width:94%;margin:55px auto;padding:35px;border-radius:25px;background:#0f172acc;backdrop-filter:blur(20px);border:1px solid #ffffff22;box-shadow:0 30px 80px #0008}
+.logo{text-align:center;font-size:30px;font-weight:900;text-shadow:0 0 25px #60a5fa}.tag{text-align:center;color:#94a3b8;margin:8px 0 24px}.notice{padding:12px;border-radius:12px;background:#2563eb22;border:1px solid #2563eb;margin-bottom:18px;text-align:center}
+label{display:block;margin:11px 0 6px;font-weight:bold}input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #475569;background:#0b1220;color:#fff;outline:0}textarea{min-height:95px;resize:vertical}
+button{width:100%;border:0;padding:12px;margin-top:11px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:bold;cursor:pointer;transition:.2s}button:hover{transform:translateY(-2px);box-shadow:0 10px 30px #3b82f655}.secondary{background:#334155}.demo{background:linear-gradient(135deg,#059669,#0ea5e9)}
+.switch{text-align:center;color:#60a5fa;margin-top:17px;cursor:pointer;font-weight:bold}.error{color:#f87171;margin-top:9px}.success{color:#4ade80;margin-top:9px}
+header{padding:17px 32px;display:flex;justify-content:space-between;align-items:center;background:#0f172acc;backdrop-filter:blur(15px);border-bottom:1px solid #ffffff1a;position:sticky;top:0;z-index:20}.headRight{display:flex;align-items:center;gap:10px}.badge{padding:8px 13px;border-radius:20px;font-weight:bold;font-size:12px;background:#2563eb}.logout{width:auto;margin:0;padding:9px 17px;background:#dc2626}
+.container{max-width:1450px;margin:28px auto;padding:0 20px}.welcome{margin-bottom:22px}.welcome h1{font-size:32px;text-shadow:0 0 20px #60a5fa}.muted{color:#94a3b8;margin-top:7px}
+.section{background:#0f172acc;backdrop-filter:blur(16px);border:1px solid #ffffff1a;border-radius:20px;padding:22px;margin-bottom:22px;box-shadow:0 15px 50px #0004}.section h2{margin-bottom:7px}.section>p{color:#94a3b8}
+.semesters{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:17px}.sem{background:#1e293b}.sem.active{background:linear-gradient(135deg,#2563eb,#7c3aed)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:22px}.stat{padding:20px;border-radius:18px;background:#0f172acc;border:1px solid #ffffff1a}.stat small{color:#94a3b8}.stat strong{display:block;font-size:28px;margin-top:7px}
+.tableWrap{overflow-x:auto}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:12px;border-bottom:1px solid #334155;text-align:center;white-space:nowrap}th{background:#1e293b}td.subject{text-align:left;font-weight:bold}.high{color:#f87171;font-weight:bold}.medium{color:#fbbf24;font-weight:bold}.low{color:#4ade80;font-weight:bold}.improve{color:#4ade80;font-weight:bold}.decline{color:#f87171;font-weight:bold}
+.plan{margin-top:17px;padding:18px;border-radius:15px;background:#020617aa;border-left:5px solid #60a5fa}.planItem{background:#111827;border:1px solid #334155;padding:16px;border-radius:13px;margin-top:12px}.planItem p{color:#cbd5e1;margin-top:6px}.progress{height:8px;background:#334155;border-radius:10px;overflow:hidden;margin-top:11px}.progressBar{height:100%;background:linear-gradient(90deg,#2563eb,#a855f7)}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}.mini{padding:18px;border-radius:16px;background:#111827;border:1px solid #334155}.mini h3{margin-bottom:7px}.kicker{color:#60a5fa;font-size:12px;font-weight:bold;letter-spacing:2px}
+.quoteOverlay{position:fixed;inset:0;background:radial-gradient(circle,#172554 0%,#020617 72%);z-index:100;display:flex;justify-content:center;align-items:center;text-align:center;padding:25px}.quoteBox{max-width:950px;animation:quote3d 1.1s ease}@keyframes quote3d{from{opacity:0;transform:perspective(1000px) rotateX(65deg) rotateY(-25deg) scale(.5)}to{opacity:1;transform:perspective(1000px) rotateX(0) rotateY(0) scale(1)}}
+.quoteSmall{color:#60a5fa;font-size:18px;letter-spacing:4px;margin-bottom:23px}.quoteText{font-size:48px;font-weight:1000;line-height:1.13;text-transform:uppercase;text-shadow:0 0 10px #60a5fa,0 0 35px #2563eb,0 0 70px #7c3aed}.quoteSub{margin-top:22px;color:#cbd5e1;font-size:19px}.continue{max-width:290px;margin:32px auto 0}
+.analysisBanner{padding:17px;border-radius:15px;background:#111827;border:1px solid #334155;margin-top:15px}.analysisBanner strong{font-size:21px}.good{border-color:#059669;background:#052e1c}.warning{border-color:#d97706;background:#3b2106}.danger{border-color:#dc2626;background:#3b0a0a}
+.comment{background:#111827;padding:15px;border-left:4px solid #a855f7;border-radius:12px;margin-top:11px}.comment p{margin-top:6px;color:#cbd5e1}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.semesters{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr}}
+@media(max-width:600px){.stats{grid-template-columns:1fr}.semesters{grid-template-columns:repeat(2,1fr)}header{padding:14px}.headRight{flex-direction:column}.quoteText{font-size:31px}}
+
+/* ===== ADDED: PERFORMANCE GRAPH + STUDY MATERIALS ===== */
+.graphBox{height:330px;margin-top:18px;background:#020617aa;border:1px solid #334155;border-radius:15px;padding:12px}
+#performanceGraph{width:100%;height:100%}
+.materialGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:18px}
+.materialCard{background:#111827;border:1px solid #334155;border-radius:15px;padding:18px;transition:.2s}
+.materialCard:hover{transform:translateY(-3px);border-color:#60a5fa}
+.materialIcon{font-size:30px;margin-bottom:10px}
+.materialCard h3{margin-bottom:7px}
+.materialCard p{color:#94a3b8;line-height:1.5;font-size:14px}
+.materialBtn{margin-top:12px}
+.materialContent{display:none;margin-top:12px;padding:12px;border-radius:10px;background:#020617;color:#cbd5e1;line-height:1.7}
+@media(max-width:1000px){.materialGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.materialGrid{grid-template-columns:1fr}}
+
+
+/* ===== FACULTY–STUDENT CHAT ===== */
+.chatPanel{margin-top:16px;background:#020617aa;border:1px solid #334155;border-radius:15px;overflow:hidden}
+.chatTop{padding:14px 16px;background:#111827;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chatTop small{color:#94a3b8}
+.chatMessages{height:300px;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:12px}
+.chatMsg{max-width:82%;padding:11px 13px;border-radius:13px;background:#1e293b;border:1px solid #334155;align-self:flex-start;overflow-wrap:anywhere}
+.chatMsg.mine{align-self:flex-end;background:#1e3a8a;border-color:#3b82f6}
+.chatMeta{font-size:11px;color:#cbd5e1;margin-bottom:5px}
+.chatBody{white-space:pre-wrap;line-height:1.5}
+.chatComposer{padding:13px;border-top:1px solid #334155;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.chatComposer textarea{min-height:48px;max-height:110px}
+.chatComposer button{width:auto;min-width:105px;margin:0}
+.chatHint{padding:0 15px 12px;color:#94a3b8;font-size:12px}
+.themeBtn{width:auto;margin:0;padding:9px 13px;background:#475569}
+.calculator{max-width:420px;margin-top:16px;padding:18px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px}
+.calcDisplay{width:100%;min-height:58px;margin-bottom:12px;padding:14px;text-align:right;font-size:25px;font-weight:bold;border-radius:10px;background:var(--input-bg);color:var(--text);overflow-wrap:anywhere}
+.calcGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.calcGrid button{margin:0;min-height:52px;font-size:18px}
+.calcGrid .calcClear{background:#dc2626}.calcGrid .calcEquals{background:#059669}
+.calcError{min-height:20px;margin-top:9px;color:#ef4444;font-size:13px}
+:root[data-theme="light"] .badge{color:#fff}
+
+@media(max-width:600px){.chatComposer{grid-template-columns:1fr}.chatComposer button{width:100%}.chatMsg{max-width:95%}}
+
+</style>
+</head>
+<body>
+<div id="particles"></div>
+
+<div id="loginPage" class="auth">
+<div class="logo">🎓 KARUNYA ACADAI</div><div class="tag">4D Academic Intelligence • Hackathon Working Model</div>
+<div class="notice">🔐 Karunya Students & Faculty</div>
+<label>Login As</label><select id="loginRole" onchange="loginFields()"><option value="student">👨‍🎓 Student</option><option value="faculty">👨‍🏫 Faculty</option></select>
+<div id="studentLogin"><label>Karunya Email</label><input id="loginEmail" type="email" placeholder="jeevasuthish@karunya.edu.in"><label>Password</label><input id="loginPassword" type="password" placeholder="Enter password"></div>
+<div id="facultyLogin" class="hidden"><label>Faculty Code</label><input id="loginFacultyCode" maxlength="4" placeholder="Example: 2324"></div>
+<p id="loginError" class="error"></p><button onclick="login()">🚀 LOGIN</button><button class="demo" onclick="demoStudent()">🎬 OPEN JEEVASUTHISH DEMO</button>
+<div class="switch" onclick="showRegister()">New user? Create Account</div>
+</div>
+
+<div id="registerPage" class="auth hidden">
+<div class="logo">🎓 KARUNYA ACADAI</div><div class="tag">Create Karunya academic account</div>
+<label>Account Type</label><select id="registerRole" onchange="registerFields()"><option value="student">👨‍🎓 Student</option><option value="faculty">👨‍🏫 Faculty</option></select>
+<label>Full Name</label><input id="regName" placeholder="Full name">
+<div id="studentRegister"><label>Register Number</label><input id="regNo" placeholder="URK26CS1182"><label>Year</label><input id="regYear" maxlength="2" placeholder="26"><label>Department</label><select id="regDept"><option>CS</option><option>CSE</option><option>ECE</option><option>EEE</option><option>IT</option><option>MECH</option><option>CIVIL</option></select><label>Karunya Email</label><input id="regEmail" type="email" placeholder="name@karunya.edu.in"><label>Password</label><input id="regPassword" type="password" placeholder="Minimum 6 characters"></div>
+<div id="facultyRegister" class="hidden"><label>Faculty Code</label><input id="regFacultyCode" maxlength="4" placeholder="Example: 2324"><label>Department</label><select id="facultyDept"><option>CS</option><option>CSE</option><option>ECE</option><option>EEE</option><option>IT</option><option>MECH</option><option>CIVIL</option></select></div>
+<p id="regError" class="error"></p><p id="regSuccess" class="success"></p><button onclick="registerUser()">✨ CREATE ACCOUNT</button><button class="secondary" onclick="showLogin()">BACK TO LOGIN</button>
+</div>
+
+<div id="quoteOverlay" class="quoteOverlay hidden">
+<div class="quoteBox"><div class="quoteSmall">✦ AI ANALYSIS COMPLETE ✦</div><div id="quoteText" class="quoteText"></div><div id="quoteSub" class="quoteSub"></div><button class="continue" onclick="closeQuote()">ENTER DASHBOARD 🚀</button></div>
+</div>
+
+<div id="dashboard" class="hidden">
+<header><div><h2>🎓 Karunya AcadAI</h2><small>Academic Intelligence Platform</small></div><div class="headRight"><button id="themeToggle" class="themeBtn" onclick="toggleTheme()" aria-label="Toggle light and dark mode">☀️ Light Mode</button><span id="roleBadge" class="badge"></span><button class="logout" onclick="logout()">Logout</button></div></header>
+<div class="container">
+<div class="welcome"><h1 id="welcome"></h1><p id="details" class="muted"></p></div>
+
+<div class="hero section"><div class="mini"><div class="kicker">AI ACADEMIC COACH</div><h2 style="margin-top:8px">Analysis first. Motivation after the result.</h2><p style="margin-top:8px">IA-1, IA-2 and IA-3 are analyzed before the motivational voice appears.</p></div><div class="mini"><div class="kicker">CURRENT MESSAGE</div><h3 id="heroQuote" style="margin-top:9px">Analyzing performance...</h3><p style="margin-top:8px">The message changes with the student's academic stage.</p></div></div>
+
+<div class="section"><h2>📚 Semester 1 — Semester 6</h2><p>Select any semester to inspect the full assessment.</p><div class="semesters"><button class="sem" onclick="selectSemester(1)">SEM 1</button><button class="sem" onclick="selectSemester(2)">SEM 2</button><button class="sem" onclick="selectSemester(3)">SEM 3</button><button class="sem" onclick="selectSemester(4)">SEM 4</button><button class="sem" onclick="selectSemester(5)">SEM 5</button><button class="sem" onclick="selectSemester(6)">SEM 6</button></div><p id="currentSem" style="margin-top:14px"></p></div>
+
+<div class="stats"><div class="stat"><small>SEMESTER AVG</small><strong id="overall">0%</strong></div><div class="stat"><small>ALL 6 SEM AVG</small><strong id="allOverall">0%</strong></div><div class="stat"><small>STRONG SUBJECTS</small><strong id="strong">0</strong></div><div class="stat"><small>AT RISK</small><strong id="risk">0</strong></div><div class="stat"><small>STUDY TIME / DAY</small><strong id="hours">4h</strong></div></div>
+
+<div class="section"><h2>🧠 AI PERFORMANCE ANALYSIS</h2><p>First understand the result. Motivation comes only after this analysis.</p><div id="analysisBox" class="analysisBanner"></div></div>
+
+<div class="section"><h2>🎯 PERSONALIZED STUDY PLAN</h2><p>Priority considers marks, trend, upcoming assessment and preparation time.</p><div class="plan" id="studyPlan"></div></div>
+
+<div class="section"><h2>📊 IA-1 → IA-2 → IA-3 PERFORMANCE</h2><p>Subject-wise assessment details.</p><div class="tableWrap"><table><thead><tr><th>Student</th><th>Register No.</th><th>Subject</th><th>IA-1</th><th>IA-2</th><th>IA-3</th><th>Average</th><th>Trend</th><th>Priority</th></tr></thead><tbody id="marksTable"></tbody></table></div></div>
+
+<div class="section"><h2>📈 SIX-SEMESTER PROGRESS</h2><p>Overall academic performance across Sem 1–6.</p><div class="tableWrap"><table><thead><tr><th>Semester</th><th>Average</th><th>Strong Subjects</th><th>At Risk</th><th>Status</th></tr></thead><tbody id="semesterSummary"></tbody></table></div></div>
+
+<div id="facultyMarks" class="section hidden"><h2>📝 FACULTY MARK MANAGEMENT</h2><p>Faculty can enter/update marks for any registered student.</p><label>Student Register Number</label><input id="markReg" placeholder="URK26CS1182"><label>Semester</label><select id="markSem"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><label>Subject</label><input id="markSubject" placeholder="Mathematics"><label>IA-1</label><input id="m1" type="number" min="0" max="100"><label>IA-2</label><input id="m2" type="number" min="0" max="100"><label>IA-3</label><input id="m3" type="number" min="0" max="100"><label>Upcoming Assessment — Days</label><input id="days" type="number" min="1" placeholder="10"><button onclick="saveMarks()">💾 SAVE MARKS</button><p id="markSuccess" class="success"></p></div>
+
+
+<div class="section">
+<h2>📈 SIX-SEMESTER PERFORMANCE GRAPH</h2>
+<p>Visual view of the student's academic performance from Semester 1 to Semester 6.</p>
+<div class="graphBox">
+<canvas id="performanceGraph"></canvas>
+</div>
+</div>
+
+
+<div class="section">
+<h2>📚 STUDY MATERIALS</h2>
+<p>Quick subject-wise revision resources for the student. Faculty can add new material with full content below.</p>
+
+<div id="materialForm" class="hidden" style="margin-bottom:18px;padding:16px;border-radius:14px;background:#020617aa;border:1px solid #334155">
+<h3 style="margin-bottom:6px">➕ Add / Update Study Material</h3>
+<p style="color:#94a3b8;font-size:13px;margin-bottom:6px">Faculty can publish new material or overwrite an existing one with the same title.</p>
+<label>Icon (emoji)</label><input id="matIcon" maxlength="4" placeholder="📘">
+<label>Title / Subject</label><input id="matTitle" placeholder="Example: Operating Systems">
+<label>Short Description</label><input id="matDesc" placeholder="One-line summary shown on the card">
+<label>Full Content</label><textarea id="matContent" placeholder="Write the study material content here. Use new lines for points."></textarea>
+<button onclick="addMaterial()">📤 PUBLISH MATERIAL</button>
+<p id="matSuccess" class="success"></p>
+</div>
+
+<div id="materialGrid" class="materialGrid"></div>
+</div>
+
+
+<div id="facultyStudentChat" class="section">
+  <h2>💬 FACULTY–STUDENT CHAT</h2>
+  <p>Students and faculty can share questions, academic updates and replies in this common chat room.</p>
+  <div class="chatPanel">
+    <div class="chatTop">
+      <div><strong>🎓 Karunya Academic Chat</strong><br><small id="chatIdentity">Connected user</small></div>
+      <span class="badge">COMMON ROOM</span>
+    </div>
+    <div id="chatMessages" class="chatMessages" aria-live="polite">
+      <p class="muted">No messages yet. Start the conversation.</p>
+    </div>
+    <div class="chatComposer">
+      <textarea id="chatInput" maxlength="1000" placeholder="Type a message to faculty and students..." aria-label="Chat message"></textarea>
+      <button onclick="sendChatMessage()">📨 SEND</button>
+    </div>
+    <div class="chatHint">Messages are visible to all student and faculty accounts in this demo.</div>
+  </div>
+</div>
+
+<div class="section">
+<h2>🧮 JAVASCRIPT CALCULATOR</h2>
+<p>Perform basic arithmetic using the interactive calculator.</p>
+<div class="calculator">
+  <div id="calcDisplay" class="calcDisplay" aria-live="polite">0</div>
+  <div class="calcGrid">
+    <button onclick="calcInput('7')">7</button><button onclick="calcInput('8')">8</button><button onclick="calcInput('9')">9</button><button onclick="calcInput('/')">÷</button>
+    <button onclick="calcInput('4')">4</button><button onclick="calcInput('5')">5</button><button onclick="calcInput('6')">6</button><button onclick="calcInput('*')">×</button>
+    <button onclick="calcInput('1')">1</button><button onclick="calcInput('2')">2</button><button onclick="calcInput('3')">3</button><button onclick="calcInput('-')">−</button>
+    <button onclick="calcInput('0')">0</button><button onclick="calcInput('.')">.</button><button class="calcClear" onclick="clearCalculator()">C</button><button onclick="calcInput('+')">+</button>
+    <button class="calcEquals" style="grid-column:span 4" onclick="calculateResult()">=</button>
+  </div>
+  <p id="calcError" class="calcError" role="alert"></p>
+</div>
+</div>
+
+<div id="facultyDiscussion" class="section hidden">
+<h2>👥 FACULTY DISCUSSION BOARD</h2>
+<p>Faculty members can post messages here to coordinate with each other across departments.</p>
+<label>Message</label><textarea id="facultyMsgText" placeholder="Share an update, question, or note for other faculty..."></textarea>
+<button onclick="postFacultyMessage()">📨 POST MESSAGE</button>
+<p id="facultyMsgSuccess" class="success"></p>
+<div id="facultyMsgList" style="margin-top:14px"></div>
+</div>
+
+<div class="section"><h2>📅 UPCOMING ASSESSMENTS</h2><div class="tableWrap"><table><thead><tr><th>Student</th><th>Subject</th><th>Assessment</th><th>Days</th><th>Priority</th></tr></thead><tbody id="assessmentTable"></tbody></table></div></div>
+
+<div class="section"><h2>⚠️ ARREAR SUBJECTS</h2><p>Arrears are shown separately for targeted preparation.</p><div id="arrears"></div></div>
+
+<div id="studentFeedback" class="section hidden"><h2>💬 SUBJECT FACULTY FEEDBACK</h2><p>Students can submit constructive feedback about subject faculty.</p><label>Subject</label><input id="commentSubject"><label>Faculty Name</label><input id="commentFaculty"><label>Rating</label><select id="rating"><option value="5">⭐⭐⭐⭐⭐ Excellent</option><option value="4">⭐⭐⭐⭐ Very Good</option><option value="3">⭐⭐⭐ Good</option><option value="2">⭐⭐ Needs Improvement</option><option value="1">⭐ Poor</option></select><label>Comment</label><textarea id="commentText" placeholder="Write your feedback..."></textarea><button onclick="submitComment()">📤 SUBMIT FEEDBACK</button><p id="commentSuccess" class="success"></p><div id="myComments"></div></div>
+
+<div id="facultyFeedback" class="section hidden"><h2>💬 STUDENT FEEDBACK</h2><p>Faculty can review submitted feedback.</p><div id="allComments"></div></div>
+</div></div>
+
+<script>
+const DEMO_EMAIL="jeevasuthish@karunya.edu.in",DEMO_REG="URK26CS1182",DEMO_PASSWORD="jeeva123";
+const subjects={1:["Mathematics I","Programming in C","Engineering Physics","English","Digital Fundamentals"],2:["Mathematics II","Data Structures","Object Oriented Programming","Digital Electronics","Technical English"],3:["Discrete Mathematics","Database Management Systems","Computer Networks","Operating Systems","Java Programming"],4:["Probability & Statistics","Design & Analysis of Algorithms","Computer Architecture","Software Engineering","Web Technology"],5:["Artificial Intelligence","Machine Learning","Cyber Security","Cloud Computing","Professional Elective"],6:["Deep Learning","Data Science","Compiler Design","Project Management","Major Project"]};
+let users=JSON.parse(localStorage.getItem("karunyaUsers")||"[]"),comments=JSON.parse(localStorage.getItem("karunyaComments")||"[]"),currentUser=null,currentSemester=1;
+
+function makeMarks(){
+ const profiles=[[72,76,81],[68,74,79],[58,63,69],[82,85,90],[64,61,57],[77,80,84],[55,60,66],[71,73,76],[88,91,94],[63,68,72],[79,75,70],[69,73,78],[57,54,52],[84,86,88],[74,79,83],[81,85,89],[62,59,56],[73,78,82],[91,93,96],[66,70,75],[76,81,85],[58,62,67],[83,87,90],[70,74,79],[64,60,55],[86,89,92],[72,76,80],[61,65,69],[78,82,86],[88,90,94]];
+ let rows=[],k=0;for(let s=1;s<=6;s++)subjects[s].forEach((sub,i)=>{let p=profiles[k++];rows.push({semester:s,subject:sub,ia1:p[0],ia2:p[1],ia3:p[2],days:[12,9,15,6,20][i%5]})});return rows;
+}
+function seedDemo(){
+ let d=users.find(u=>u.email===DEMO_EMAIL);if(!d){d={role:"student",name:"Jeevasuthish",registerNumber:DEMO_REG,year:"26",department:"CS",email:DEMO_EMAIL,password:DEMO_PASSWORD,studyTime:4,marks:makeMarks(),arrears:[{semester:2,subject:"Digital Electronics"},{semester:3,subject:"Operating Systems"},{semester:5,subject:"Cyber Security"}]};users.push(d)}else{d.marks=makeMarks();d.arrears=[{semester:2,subject:"Digital Electronics"},{semester:3,subject:"Operating Systems"},{semester:5,subject:"Cyber Security"}]}if(!users.some(u=>u.role==="faculty"&&u.facultyCode==="2324"))users.push({role:"faculty",name:"Demo Faculty",facultyCode:"2324",department:"CS"});localStorage.setItem("karunyaUsers",JSON.stringify(users))}
+seedDemo();
+for(let i=0;i<90;i++){let p=document.createElement("div");p.className="p";p.style.left=Math.random()*100+"%";p.style.animationDuration=(5+Math.random()*10)+"s";p.style.animationDelay=Math.random()*8+"s";document.getElementById("particles").appendChild(p)}
+function speak(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.rate=.76;u.pitch=.65;u.volume=1;speechSynthesis.speak(u)}
+function sound(){let A=window.AudioContext||window.webkitAudioContext;if(!A)return;let c=new A();[523,659,784].forEach((f,i)=>{let o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.type="sine";g.gain.setValueAtTime(.001,c.currentTime+i*.12);g.gain.exponentialRampToValueAtTime(.16,c.currentTime+i*.12+.03);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+i*.12+.42);o.connect(g);g.connect(c.destination);o.start(c.currentTime+i*.12);o.stop(c.currentTime+i*.12+.45)})}
+function loginFields(){let r=loginRole.value;studentLogin.classList.toggle("hidden",r!=="student");facultyLogin.classList.toggle("hidden",r!=="faculty")}
+function registerFields(){let r=registerRole.value;studentRegister.classList.toggle("hidden",r!=="student");facultyRegister.classList.toggle("hidden",r!=="faculty")}
+function showRegister(){loginPage.classList.add("hidden");registerPage.classList.remove("hidden")}function showLogin(){registerPage.classList.add("hidden");loginPage.classList.remove("hidden")}
+function registerUser(){let role=registerRole.value,name=regName.value.trim();regError.textContent="";regSuccess.textContent="";if(!name){regError.textContent="Enter your name.";return}if(role==="student"){let no=regNo.value.trim().toUpperCase(),year=regYear.value.trim(),dept=regDept.value,email=regEmail.value.trim().toLowerCase(),pass=regPassword.value;if(!/^URK\d{2}[A-Z]{2,5}\d{4}$/.test(no)){regError.textContent="Use format: URK26CS1182";return}if(!email.endsWith("@karunya.edu.in")){regError.textContent="Use @karunya.edu.in email.";return}if(pass.length<6){regError.textContent="Password must contain at least 6 characters.";return}if(users.some(u=>u.role==="student"&&(u.registerNumber===no||u.email===email))){regError.textContent="Register number or email already exists.";return}users.push({role:"student",name,registerNumber:no,year,department:dept,email,password:pass,studyTime:4,marks:[],arrears:[]})}else{let code=regFacultyCode.value.trim(),dept=facultyDept.value;if(!/^\d{4}$/.test(code)){regError.textContent="Faculty code must be 4 digits.";return}if(users.some(u=>u.role==="faculty"&&u.facultyCode===code)){regError.textContent="Faculty code already exists.";return}users.push({role:"faculty",name,facultyCode:code,department:dept})}localStorage.setItem("karunyaUsers",JSON.stringify(users));regSuccess.textContent="✅ Account created successfully."}
+function demoStudent(){currentUser=users.find(u=>u.email===DEMO_EMAIL);sound();showDashboard();setTimeout(()=>showMotivation(),1000)}
+function login(){loginError.textContent="";let r=loginRole.value;if(r==="student")currentUser=users.find(u=>u.role==="student"&&u.email===loginEmail.value.trim().toLowerCase()&&u.password===loginPassword.value);else currentUser=users.find(u=>u.role==="faculty"&&u.facultyCode===loginFacultyCode.value.trim());if(!currentUser){loginError.textContent="❌ Invalid login details.";return}sound();showDashboard()}
+function getStudentMarks(){return currentUser.marks||[]}function average(m){return(+m.ia1 + +m.ia2 + +m.ia3)/3}
+function priority(m){let a=average(m),score=0;if(a<50)score+=50;else if(a<70)score+=30;else if(a<80)score+=10;if(m.ia3<m.ia2)score+=25;else if(m.ia3>m.ia2)score-=5;if(+m.days<=7)score+=30;else if(+m.days<=14)score+=18;return score>=55?"HIGH":score>=25?"MEDIUM":"LOW"}
+function motivation(data){if(!data.length)return["WELCOME TO YOUR ACADEMIC JOURNEY.","Believe in progress and keep faith in God."];let a=data.reduce((x,m)=>x+average(m),0)/data.length;if(a<60)return["DON'T GIVE UP. YOUR WEAKNESS CAN BECOME YOUR STRENGTH.","Start today, stay consistent, and believe in progress."];if(a<75)return["KEEP PUSHING FORWARD. YOUR NEXT LEVEL IS CLOSER.","Stay consistent, learn from every assessment, and keep faith in God."];return["KEEP IT UP! THE STAGE IS YOURS.","Believe in your progress and keep faith in God."]}
+function showMotivation(){let d=currentUser.role==="student"?getStudentMarks().filter(m=>m.semester===currentSemester):[];let [q,s]=motivation(d);quoteText.textContent=q;quoteSub.textContent=s;quoteOverlay.classList.remove("hidden");setTimeout(()=>speak(q+". "+s),500)}
+function closeQuote(){speechSynthesis.cancel();quoteOverlay.classList.add("hidden")}
+function showDashboard(){loginPage.classList.add("hidden");registerPage.classList.add("hidden");dashboard.classList.remove("hidden");welcome.textContent="Welcome, "+currentUser.name;if(currentUser.role==="student"){details.textContent=`Register No: ${currentUser.registerNumber} | Department: ${currentUser.department} | ${currentUser.email}`;roleBadge.textContent="👨‍🎓 STUDENT";facultyMarks.classList.add("hidden");studentFeedback.classList.remove("hidden");facultyFeedback.classList.add("hidden");materialForm.classList.add("hidden");facultyDiscussion.classList.add("hidden")}else{details.textContent=`Faculty Code: ${currentUser.facultyCode} | Department: ${currentUser.department}`;roleBadge.textContent="👨‍🏫 FACULTY";facultyMarks.classList.remove("hidden");studentFeedback.classList.add("hidden");facultyFeedback.classList.remove("hidden");materialForm.classList.remove("hidden");facultyDiscussion.classList.remove("hidden")}renderMaterials();loadFacultyMessages();renderChat();selectSemester(1)}
+function selectSemester(s){currentSemester=s;currentSem.textContent="Selected: Semester "+s;document.querySelectorAll(".sem").forEach((b,i)=>b.classList.toggle("active",i+1===s));loadData()}
+function getData(){if(currentUser.role==="student")return getStudentMarks().filter(m=>m.semester===currentSemester).map(m=>({...m,student:currentUser.name,registerNumber:currentUser.registerNumber}));let r=[];users.filter(u=>u.role==="student").forEach(st=>st.marks.filter(m=>m.semester===currentSemester).forEach(m=>r.push({...m,student:st.name,registerNumber:st.registerNumber})));return r}
+function loadData(){let d=getData();displayMarks(d);displayStats(d);displayAnalysis(d);studyPlan(d);assessments(d);arrears();semesterSummary();loadComments();let [q]=motivation(d);heroQuote.textContent=q}
+function displayStats(d){let a=d.length?d.reduce((x,m)=>x+average(m),0)/d.length:0,all=currentUser.role==="student"?getStudentMarks():[],aa=all.length?all.reduce((x,m)=>x+average(m),0)/all.length:0;overall.textContent=a.toFixed(1)+"%";allOverall.textContent=aa.toFixed(1)+"%";strong.textContent=d.filter(m=>average(m)>=75).length;risk.textContent=d.filter(m=>average(m)<60).length;hours.textContent=(currentUser.studyTime||4)+"h"}
+function displayAnalysis(d){let box=document.getElementById("analysisBox");if(!d.length){box.className="analysisBanner";box.innerHTML="<strong>No assessment data yet.</strong><p style='margin-top:7px'>Faculty can add marks for this semester.</p>";return}let a=d.reduce((x,m)=>x+average(m),0)/d.length,hi=d.filter(m=>priority(m)==="HIGH"),lo=d.filter(m=>priority(m)==="LOW"),im=d.filter(m=>m.ia3>m.ia2).length,dec=d.filter(m=>m.ia3<m.ia2).length;box.className="analysisBanner "+(a<60?"danger":a<75?"warning":"good");box.innerHTML=`<strong>${a>=75?"🟢 Strong overall performance":a>=60?"🟡 Stable — improvement possible":"🔴 Immediate attention required"}</strong><p style="margin-top:9px">Semester ${currentSemester} average: <b>${a.toFixed(1)}%</b> • Strong subjects: <b>${lo.length}</b> • High-priority subjects: <b>${hi.length}</b></p><p style="margin-top:6px">Trend: <b>${im}</b> improving • <b>${dec}</b> declining.</p>`}
+function displayMarks(d){marksTable.innerHTML=d.length?d.map(m=>{let a=average(m),t=m.ia3>m.ia2?"📈 Improving":m.ia3<m.ia2?"📉 Declining":"➡ Stable",cl=m.ia3>m.ia2?"improve":m.ia3<m.ia2?"decline":"";let p=priority(m);return`<tr><td>${safe(m.student)}</td><td>${safe(m.registerNumber)}</td><td class="subject">${safe(m.subject)}</td><td>${m.ia1}</td><td>${m.ia2}</td><td>${m.ia3}</td><td>${a.toFixed(1)}%</td><td class="${cl}">${t}</td><td class="${p.toLowerCase()}">${p}</td></tr>`}).join(""):"<tr><td colspan='9'>No marks available.</td></tr>"}
+function studyPlan(d){let el=document.getElementById("studyPlan");if(!d.length){el.innerHTML="<p>No study plan until marks are entered.</p>";return}el.innerHTML=d.slice().sort((a,b)=>rank(priority(b))-rank(priority(a))).map(m=>{let a=average(m),p=priority(m),time=p==="HIGH"?2:p==="MEDIUM"?1.5:1,action=a<50?"Revise fundamentals and solve basic problems daily.":m.ia3<m.ia2?"Review IA mistakes and increase practice.":+m.days<=7?"Assessment is near: revise and take timed tests.":"Maintain preparation with regular revision.";return`<div class="planItem"><h3>${p==="HIGH"?"🔴":p==="MEDIUM"?"🟡":"🟢"} ${safe(m.subject)} — ${p}</h3><p>Average: <b>${a.toFixed(1)}%</b> | Assessment: <b>${m.days} days</b></p><p>Recommended: <b>${time} hour(s)/day</b></p><p>Next action: <b>${action}</b></p><div class="progress"><div class="progressBar" style="width:${Math.min(a,100)}%"></div></div></div>`}).join("")}
+function rank(p){return p==="HIGH"?3:p==="MEDIUM"?2:1}
+function assessments(d){assessmentTable.innerHTML=d.slice().sort((a,b)=>a.days-b.days).map(m=>{let p=priority(m);return`<tr><td>${safe(m.student)}</td><td>${safe(m.subject)}</td><td>Upcoming IA</td><td>${m.days}</td><td class="${p.toLowerCase()}">${p}</td></tr>`}).join("")}
+function semesterSummary(){let all=currentUser.role==="student"?getStudentMarks():[],rows="";for(let s=1;s<=6;s++){let d=all.filter(m=>m.semester===s),a=d.length?d.reduce((x,m)=>x+average(m),0)/d.length:0,g=d.filter(m=>average(m)>=75).length,r=d.filter(m=>average(m)<60).length;rows+=`<tr><td>Semester ${s}</td><td>${a.toFixed(1)}%</td><td>${g}</td><td>${r}</td><td class="${a>=75?"low":a>=60?"medium":"high"}">${a>=75?"STRONG":a>=60?"STABLE":"NEEDS ATTENTION"}</td></tr>`}semesterSummary.innerHTML=rows}
+function arrears(){let list=[];if(currentUser.role==="student")list=(currentUser.arrears||[]).filter(a=>a.semester===currentSemester);else users.filter(u=>u.role==="student").forEach(s=>(s.arrears||[]).filter(a=>a.semester===currentSemester).forEach(a=>list.push({...a,student:s.name,reg:s.registerNumber})));document.getElementById("arrears").innerHTML=list.length?list.map(a=>`<div class="comment"><h3>⚠️ ${safe(a.subject)}</h3>${a.student?`<p>Student: <b>${safe(a.student)}</b> (${safe(a.reg)})</p>`:""}<p>Targeted preparation recommended.</p></div>`).join(""):"<p>🎉 No arrear subjects recorded for this semester.</p>"}
+function saveMarks(){let reg=markReg.value.trim().toUpperCase(),sem=+markSem.value,sub=markSubject.value.trim(),a=+m1.value,b=+m2.value,c=+m3.value,d=+days.value,st=users.find(u=>u.role==="student"&&u.registerNumber===reg);if(!st){alert("Student not found.");return}if(!sub||[a,b,c].some(x=>isNaN(x)||x<0||x>100)||!d){alert("Enter valid details.");return}let ex=st.marks.find(m=>m.semester===sem&&m.subject.toLowerCase()===sub.toLowerCase()),obj={semester:sem,subject:sub,ia1:a,ia2:b,ia3:c,days:d};if(ex)Object.assign(ex,obj);else st.marks.push(obj);localStorage.setItem("karunyaUsers",JSON.stringify(users));markSuccess.textContent="✅ Marks saved successfully.";if(currentUser.role==="student")currentUser=st;loadData()}
+function submitComment(){let subject=commentSubject.value.trim(),faculty=commentFaculty.value.trim(),text=commentText.value.trim();if(!subject||!faculty||!text){alert("Please fill all fields.");return}comments.push({student:currentUser.name,registerNumber:currentUser.registerNumber,email:currentUser.email,subject,faculty,rating:rating.value,text,date:new Date().toLocaleString()});localStorage.setItem("karunyaComments",JSON.stringify(comments));commentSuccess.textContent="✅ Feedback submitted.";commentText.value="";loadComments()}
+function loadComments(){if(currentUser.role==="student")myComments.innerHTML=comments.filter(c=>c.email===currentUser.email).slice().reverse().map(c=>`<div class="comment"><h3>📚 ${safe(c.subject)}</h3><p>Faculty: ${safe(c.faculty)}</p><p>Rating: ${"⭐".repeat(+c.rating)}</p><p>${safe(c.text)}</p></div>`).join("");else allComments.innerHTML=comments.slice().reverse().map(c=>`<div class="comment"><h3>👨‍🎓 ${safe(c.student)}</h3><p>Register No: ${safe(c.registerNumber)} | Subject: ${safe(c.subject)}</p><p>Faculty: ${safe(c.faculty)} | Rating: ${"⭐".repeat(+c.rating)}</p><p>${safe(c.text)}</p></div>`).join("")||"<p>No feedback yet.</p>"}
+function safe(v){let d=document.createElement("div");d.textContent=String(v??"");return d.innerHTML}
+
+/* ===== ADDED FEATURES ===== */
+
+const defaultMaterials=[
+ {icon:"💻",title:"Programming in C",desc:"Variables, loops, arrays, functions, pointers and structures.",content:"• Data types and operators\n• Conditional statements\n• Loops\n• Arrays and strings\n• Functions\n• Pointers and structures"},
+ {icon:"🌳",title:"Data Structures",desc:"Important concepts for understanding efficient data organization.",content:"• Arrays\n• Linked lists\n• Stacks and queues\n• Trees and graphs\n• Searching\n• Sorting and complexity"},
+ {icon:"🗄️",title:"DBMS",desc:"Database fundamentals and SQL revision points.",content:"• ER model\n• Relational model\n• SQL commands\n• Keys and constraints\n• Joins\n• Normalization"},
+ {icon:"🌐",title:"Computer Networks",desc:"Networking concepts for quick exam preparation.",content:"• OSI model\n• TCP/IP model\n• IP addressing\n• TCP and UDP\n• HTTP/HTTPS\n• DNS"},
+ {icon:"🐍",title:"Python Programming",desc:"Core Python concepts and programming practice areas.",content:"• Variables and data types\n• Conditions and loops\n• Functions\n• Lists and dictionaries\n• OOP basics\n• File handling"},
+ {icon:"📐",title:"Engineering Mathematics",desc:"Useful revision topics for engineering mathematics.",content:"• Matrices\n• Differential calculus\n• Integral calculus\n• Differential equations\n• Probability\n• Statistics"}
+];
+let customMaterials=JSON.parse(localStorage.getItem("karunyaMaterials")||"[]");
+let facultyMessages=JSON.parse(localStorage.getItem("karunyaFacultyMessages")||"[]");
+let chatMessages=JSON.parse(localStorage.getItem("karunyaChatMessages")||"[]");
+
+function renderMaterials(){
+ const grid=document.getElementById("materialGrid");
+ if(!grid) return;
+ const all=defaultMaterials.concat(customMaterials);
+ grid.innerHTML=all.map((m,i)=>{
+  const id="mat"+i;
+  const contentHtml=safe(m.content).replace(/\n/g,"<br>");
+  const author=m.author?`<p style="margin-top:6px;color:#60a5fa;font-size:12px">Added by ${safe(m.author)}${m.department?" • "+safe(m.department):""}</p>`:"";
+  const delBtn=(currentUser&&currentUser.role==="faculty"&&m.custom)?`<button class="secondary materialBtn" style="margin-top:6px" onclick="deleteMaterial(${m.customIndex})">🗑 REMOVE</button>`:"";
+  return `<div class="materialCard"><div class="materialIcon">${safe(m.icon||"📘")}</div><h3>${safe(m.title)}</h3><p>${safe(m.desc)}</p>${author}<button class="materialBtn" onclick="toggleMaterial('${id}')">VIEW MATERIAL</button>${delBtn}<div id="${id}" class="materialContent"><b>Content:</b><br>${contentHtml}</div></div>`;
+ }).join("");
+}
+
+function addMaterial(){
+ const icon=matIcon.value.trim()||"📘",title=matTitle.value.trim(),desc=matDesc.value.trim(),content=matContent.value.trim();
+ matSuccess.textContent="";
+ if(!title||!desc||!content){alert("Please fill title, description and content.");return}
+ const existingIdx=customMaterials.findIndex(m=>m.title.toLowerCase()===title.toLowerCase());
+ const entry={icon,title,desc,content,custom:true,author:currentUser.name,department:currentUser.department,date:new Date().toLocaleString()};
+ if(existingIdx>-1) customMaterials[existingIdx]=entry; else customMaterials.push(entry);
+ customMaterials.forEach((m,i)=>m.customIndex=i);
+ localStorage.setItem("karunyaMaterials",JSON.stringify(customMaterials));
+ matTitle.value="";matDesc.value="";matContent.value="";matIcon.value="";
+ matSuccess.textContent="✅ Study material published.";
+ renderMaterials();
+}
+
+function deleteMaterial(idx){
+ customMaterials.splice(idx,1);
+ customMaterials.forEach((m,i)=>m.customIndex=i);
+ localStorage.setItem("karunyaMaterials",JSON.stringify(customMaterials));
+ renderMaterials();
+}
+
+function postFacultyMessage(){
+ const text=facultyMsgText.value.trim();
+ facultyMsgSuccess.textContent="";
+ if(!text){alert("Write a message before posting.");return}
+ facultyMessages.push({name:currentUser.name,department:currentUser.department,facultyCode:currentUser.facultyCode,text,date:new Date().toLocaleString()});
+ localStorage.setItem("karunyaFacultyMessages",JSON.stringify(facultyMessages));
+ facultyMsgText.value="";
+ facultyMsgSuccess.textContent="✅ Message posted to faculty board.";
+ loadFacultyMessages();
+}
+
+function loadFacultyMessages(){
+ const el=document.getElementById("facultyMsgList");
+ if(!el) return;
+ el.innerHTML=facultyMessages.length?facultyMessages.slice().reverse().map(m=>`<div class="comment"><h3>👨‍🏫 ${safe(m.name)} <span style="color:#94a3b8;font-weight:normal;font-size:13px">(${safe(m.department)})</span></h3><p style="color:#60a5fa;font-size:12px">${safe(m.date)}</p><p>${safe(m.text)}</p></div>`).join(""):"<p>No faculty messages yet. Start the discussion above.</p>";
+}
+
+
+function renderChat(){
+  const list=document.getElementById("chatMessages");
+  const identity=document.getElementById("chatIdentity");
+  if(!list||!currentUser) return;
+  identity.textContent=`${currentUser.name} • ${currentUser.role==="faculty"?"Faculty":"Student"} • ${currentUser.department||""}`;
+  if(!chatMessages.length){
+    list.innerHTML="<p class='muted'>No messages yet. Start the conversation.</p>";
+    return;
+  }
+  list.innerHTML=chatMessages.slice(-150).map(m=>{
+    const mine=m.userKey===chatUserKey();
+    const role=m.role==="faculty"?"👨‍🏫 Faculty":"👨‍🎓 Student";
+    return `<div class="chatMsg ${mine?"mine":""}">
+      <div class="chatMeta"><b>${safe(m.name)}</b> · ${role} · ${safe(m.department||"") }<br>${safe(m.date)}</div>
+      <div class="chatBody">${safe(m.text)}</div>
+    </div>`;
+  }).join("");
+  list.scrollTop=list.scrollHeight;
+}
+function chatUserKey(){
+  if(!currentUser) return "";
+  return currentUser.role==="student" ? "student:"+currentUser.email : "faculty:"+currentUser.facultyCode;
+}
+function sendChatMessage(){
+  const input=document.getElementById("chatInput");
+  const text=input.value.trim();
+  if(!currentUser){alert("Please log in to use chat.");return}
+  if(!text){alert("Type a message first.");return}
+  chatMessages.push({
+    userKey:chatUserKey(),
+    role:currentUser.role,
+    name:currentUser.name,
+    department:currentUser.department||"",
+    text,
+    date:new Date().toLocaleString()
+  });
+  localStorage.setItem("karunyaChatMessages",JSON.stringify(chatMessages));
+  input.value="";
+  renderChat();
+}
+
+function toggleMaterial(id){
+    const el=document.getElementById(id);
+    el.style.display = el.style.display==="block" ? "none" : "block";
+}
+
+function drawPerformanceGraph(){
+    const canvas=document.getElementById("performanceGraph");
+    if(!canvas) return;
+
+    const ctx=canvas.getContext("2d");
+    const rect=canvas.getBoundingClientRect();
+    const dpr=window.devicePixelRatio||1;
+    canvas.width=rect.width*dpr;
+    canvas.height=rect.height*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    const w=rect.width, h=rect.height;
+    ctx.clearRect(0,0,w,h);
+
+    let data=[];
+    if(currentUser && currentUser.role==="student"){
+        for(let s=1;s<=6;s++){
+            const rows=(currentUser.marks||[]).filter(m=>m.semester===s);
+            const avg=rows.length
+                ? rows.reduce((sum,m)=>sum+average(m),0)/rows.length
+                : 0;
+            data.push(avg);
+        }
+    }else{
+        for(let s=1;s<=6;s++){
+            const rows=[];
+            users.filter(u=>u.role==="student").forEach(st=>{
+                (st.marks||[]).filter(m=>m.semester===s).forEach(m=>rows.push(m));
+            });
+            const avg=rows.length
+                ? rows.reduce((sum,m)=>sum+average(m),0)/rows.length
+                : 0;
+            data.push(avg);
+        }
+    }
+
+    const left=52,right=22,top=22,bottom=45;
+    const gw=w-left-right, gh=h-top-bottom;
+
+    // Grid + Y labels
+    ctx.font="12px Arial";
+    ctx.lineWidth=1;
+    ctx.strokeStyle="#334155";
+    ctx.fillStyle="#94a3b8";
+
+    for(let i=0;i<=5;i++){
+        const value=i*20;
+        const y=top+gh-(value/100)*gh;
+        ctx.beginPath();
+        ctx.moveTo(left,y);
+        ctx.lineTo(w-right,y);
+        ctx.stroke();
+        ctx.fillText(value+"%",10,y+4);
+    }
+
+    // Line
+    ctx.strokeStyle="#60a5fa";
+    ctx.lineWidth=3;
+    ctx.beginPath();
+
+    data.forEach((value,i)=>{
+        const x=left+(i/(data.length-1))*gw;
+        const y=top+gh-(Math.max(0,Math.min(100,value))/100)*gh;
+        if(i===0) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+
+    // Points + labels
+    data.forEach((value,i)=>{
+        const x=left+(i/(data.length-1))*gw;
+        const y=top+gh-(Math.max(0,Math.min(100,value))/100)*gh;
+
+        ctx.fillStyle="#7c3aed";
+        ctx.beginPath();
+        ctx.arc(x,y,5,0,Math.PI*2);
+        ctx.fill();
+
+        ctx.fillStyle="#fff";
+        ctx.font="bold 12px Arial";
+        ctx.fillText(value ? value.toFixed(1)+"%" : "N/A",x-16,y-12);
+
+        ctx.fillStyle="#94a3b8";
+        ctx.font="12px Arial";
+        ctx.fillText("Sem "+(i+1),x-17,h-18);
+    });
+}
+
+// Redraw whenever the dashboard data is refreshed.
+const originalLoadData = loadData;
+loadData = function(){
+    originalLoadData();
+    setTimeout(drawPerformanceGraph,50);
+};
+
+window.addEventListener("resize",()=>{
+    if(!document.getElementById("dashboard")?.classList.contains("hidden")){
+        drawPerformanceGraph();
+    }
+});
+
+
+window.addEventListener("storage",e=>{
+  if(e.key==="karunyaChatMessages"){
+    chatMessages=JSON.parse(e.newValue||"[]");
+    renderChat();
+  }
+});
+
+// ===== FR-07: LIGHT / DARK MODE TOGGLE =====
+function applyTheme(theme){
+  document.documentElement.setAttribute("data-theme",theme);
+  const btn=document.getElementById("themeToggle");
+  if(btn) btn.textContent=theme==="dark"?"☀️ Light Mode":"🌙 Dark Mode";
+}
+function toggleTheme(){
+  const current=document.documentElement.getAttribute("data-theme")||"dark";
+  const next=current==="dark"?"light":"dark";
+  localStorage.setItem("karunyaTheme",next);
+  applyTheme(next);
+}
+(function initTheme(){
+  const saved=localStorage.getItem("karunyaTheme")||"dark";
+  applyTheme(saved);
+})();
+
+// ===== FR-08: JAVASCRIPT CALCULATOR MODULE =====
+let calcExpression="";
+function updateCalculator(){
+  document.getElementById("calcDisplay").textContent=calcExpression||"0";
+  document.getElementById("calcError").textContent="";
+}
+function calcInput(value){
+  const allowed="0123456789.+-*/";
+  if(!allowed.includes(value)) return;
+  if(calcExpression.length>=40) return;
+  calcExpression+=value;
+  updateCalculator();
+}
+function clearCalculator(){
+  calcExpression="";
+  updateCalculator();
+}
+function calculateResult(){
+  const error=document.getElementById("calcError");
+  if(!calcExpression){error.textContent="Enter a mathematical expression.";return;}
+  if(!/^[0-9+*/.() -]+$/.test(calcExpression)){error.textContent="Invalid mathematical expression.";return;}
+  if(/(^|[+*/.-])$/.test(calcExpression)){error.textContent="Complete the expression before calculating.";return;}
+  try{
+    // Only arithmetic characters are accepted by the validation above.
+    const result=Function('"use strict";return ('+calcExpression+')')();
+    if(typeof result!=="number"||!Number.isFinite(result)){error.textContent=calcExpression.includes("/")?"Cannot divide by zero.":"Invalid mathematical expression.";return;}
+    if(!Number.isInteger(result)&&Number.isFinite(result)) calcExpression=String(Number(result.toFixed(8)));
+    else calcExpression=String(result);
+    updateCalculator();
+  }catch(e){error.textContent="Invalid mathematical expression.";}
+}
+
+function logout(){speechSynthesis.cancel();currentUser=null;dashboard.classList.add("hidden");loginPage.classList.remove("hidden")}
+</script>
+</body>
+</html>
